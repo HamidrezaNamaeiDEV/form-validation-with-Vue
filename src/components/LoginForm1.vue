@@ -42,7 +42,7 @@
 
 <script>
 import { Form, Field, ErrorMessage} from "vee-validate";
-import * as yup from 'yup';
+import {string,object} from 'yup';
 
 export default {
   name: "LoginForm",
@@ -53,9 +53,9 @@ export default {
   },
   data(){
     // validate with yup schema
-    const loginFormSchema = yup.object({
-      email : yup.string().required("ایمیل را وارد کنید").email("ایمیل نامعتبر است"),
-      password : yup.string().required("لطفا رمز عبور را وارد کنید").min(5,"لطفا رمز عبور با بیش از 5 کاراکتر انتخاب کنید")
+    const loginFormSchema = object({
+      email : string().required("ایمیل را وارد کنید").email("ایمیل نامعتبر است"),
+      password : string().required("لطفا رمز عبور را وارد کنید").min(6,"لطفا رمز عبور با بیش از 5 کاراکتر انتخاب کنید")
     })
     return{
       // validate with yup

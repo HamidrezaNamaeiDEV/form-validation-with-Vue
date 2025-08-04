@@ -1,11 +1,12 @@
 <template>
   <div class="card-back">
     <div class="center-wrap">
-      <form @submit.prevent="register" class="section text-center">
+      <Form @submit="register" class="section text-center" :validation-schema="RegisterFormSchema">
         <h4 class="mb-4 pb-3">ثبت نام</h4>
         <div class="form-group">
-          <input
-            v-model="name"
+          <Field
+            :validateOnInput="true"
+            name="name"
             type="text"
             class="form-style"
             placeholder="نام و نام خانوادگی"
@@ -13,9 +14,13 @@
           />
           <i class="input-icon uil uil-user"></i>
         </div>
+        <p class="text-danger">
+          <ErrorMessage name="name" />
+        </p>
         <div class="form-group mt-2">
-          <input
-            v-model="email"
+          <Field
+            :validateOnInput="true"
+            name="email"
             type="email"
             class="form-style"
             placeholder="ایمیل خود را وارد کنید"
@@ -23,9 +28,13 @@
           />
           <i class="input-icon uil uil-at"></i>
         </div>
+        <p  class="text-danger">
+          <ErrorMessage name="email" />
+        </p>
         <div class="form-group mt-2">
-          <input
-            v-model="password"
+          <Field
+            :validateOnInput="true"
+            name="password"
             type="password"
             class="form-style"
             placeholder="کلمه عبور"
@@ -33,9 +42,13 @@
           />
           <i class="input-icon uil uil-lock-alt"></i>
         </div>
+        <p  class="text-danger">
+          <ErrorMessage name="password" />
+        </p>
         <div class="form-group mt-2">
-          <input
-            v-model="ConfirmPassword"
+          <Field
+            :validateOnInput="true"
+            name="ConfirmPassword"
             type="password"
             class="form-style"
             placeholder="تکرار کلمه عبور"
@@ -43,9 +56,13 @@
           />
           <i class="input-icon uil uil-lock-alt"></i>
         </div>
+        <p  class="text-danger">
+          <ErrorMessage name="ConfirmPassword" />
+        </p>
         <div class="form-group mt-2">
-          <input
-            v-model="phoneNumber"
+          <Field
+            :validateOnInput="true"
+            name="phoneNumber"
             type="text"
             class="form-style"
             placeholder="شماره خود را وارد کنید"
@@ -53,28 +70,32 @@
           />
           <i class="input-icon uil uil-phone"></i>
         </div>
-
+        <p  class="text-danger">
+          <ErrorMessage name= "phoneNumber" />
+        </p>
         <div class="form-group mt-2">
-        <select v-model="role" class="form-style">
+        <Field :validateOnInput="true" as="select" name="role" class="form-style">
           <option value="">نقش خود را وارد کنید</option>
           <option value="کاربر">کاربر</option>
           <option value="مدرس">مدرس</option>
           <option value="مدیر">مدیر</option>
-        </select>
+        </Field>
         <i class="input-icon uli uil-airplay"></i>
         </div>
+        <p  class="text-danger">
+          <ErrorMessage name= "role" />
+        </p>
         
         <div class="form-group d-flex mt-2 ms-2 text-start">
           <label for="1">نامشخص</label>
-          <input v-model="gender" type="radio" name="gender" value="نامشخص" id="1" class="m-1">
+          <Field v-model="gender" type="radio" name="gender" value="نامشخص" id="1" class="m-1" />
 
           <label for="2">آقا</label>
-          <input v-model="gender" type="radio" name="gender" value="آقا" id="2" class="m-1">
+          <Field v-model="gender" type="radio" name="gender" value="آقا" id="2" class="m-1" />
         
           <label for="3">خانم</label>
-          <input v-model="gender" type="radio" name="gender" value="خانم" id="3" class="m-1">
+          <Field v-model="gender" type="radio" name="gender" value="خانم" id="3" class="m-1" />
         </div>
-
         <button class="btn mt-4">ثبت نام</button>
       </form>
     </div>
@@ -82,18 +103,25 @@
 </template>
 
 <script>
+import { Form, Field, ErrorMessage} from "vee-validate";
+import {string,object ,ref} from 'yup';
 export default {
   data() {
+    const RegisterFormSchema = object({
+      name : string().required("لطفا نام را وارد کنید"),
+      email : string().required("ایمیل را وارد کنید").email("ایمیل نامعتبر است"),
+      password : string().required("لطفا رمز عبور را وارد کنید").min(6,"لطفا رمز عبور با بیش از 5 کاراکتر انتخاب کنید"),
+      ConfirmPassword : string().required("لطفا رمز عبور را تایید کنید").oneOf([ref("password")],"رمز های عبور یکسان نیستند"),
+      phoneNumber : string().required("لطفا شماره تلفن را وراد کنید").length(11),
+      role: string().required("لطفا نقش خود را انتخاب کنید"),
+    })
     return {
-      name : "",
-      email : "",
-      phoneNumber : "",
-      password : "",
-      ConfirmPassword : "",
-      gender : "نامشخص",
-      role : "کاربر",
-      isOk : false,
+      gender:"نامشخص",
+      RegisterFormSchema,
     };
+  },
+  components:{
+    Form,Field,ErrorMessage
   },
   methods:{
     register(){
