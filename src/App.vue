@@ -23,6 +23,7 @@
       </div>
     </div>
   </div>
+  
 </template>
 
 <script>
@@ -37,6 +38,8 @@ export default {
     RegisterForm,
   },
 };
+
+
 </script>
 
 <style>
