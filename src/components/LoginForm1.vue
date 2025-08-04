@@ -1,44 +1,56 @@
 <template>
   <div class="card-front">
     <div class="center-wrap">
-      <form @submit.prevent="login" class="section text-center">
+      <Form @submit="login" class="section text-center">
         <h4 class="mb-4 pb-3">ورود</h4>
         <div class="form-group">
-          <input
-            v-model="email"
+          <!-- v-model="email" -->
+          <Field
+            :rules="validateEmail"
+            name="email"
             type="email"
-            name="logemail"
             class="form-style"
             placeholder="ایمیل خود را وارد کنید"
-            id="logemail"
             autocomplete="off"
           />
           <i class="input-icon uil uil-at"></i>
         </div>
+        <p class="text-danger">
+            <ErrorMessage name="email" />
+        </p>
         <div class="form-group mt-2">
-          <input
-            v-model="password"
+          <!-- v-model="password" -->
+          <Field
+            :rules="validatePassword"
+            name="password"
             type="password"
-            name="logpass"
             class="form-style"
             placeholder="پسورد را وارد کنید"
-            id="logpass"
             autocomplete="off"
           />
           <i class="input-icon uil uil-lock-alt"></i>
         </div>
+        <p class="text-danger">
+          <ErrorMessage name="password" />
+        </p>
         <button class="btn mt-4">ورود به سایت</button>
         <p class="mb-0 mt-4 text-center">
           <a href="#0" class="link">آیا کلمه عبور خود را فراموش کرده اید ؟</a>
         </p>
-      </form>
+      </Form>
     </div>
   </div>
 </template>
 
 <script>
+import { Form, Field, ErrorMessage} from "vee-validate";
 export default {
   name: "LoginForm",
+  components:{
+    Form,
+    Field,
+    ErrorMessage,
+  },
   data(){
     return{
       email:"",
@@ -46,10 +58,29 @@ export default {
     }
   },
   methods:{
-    login(){
-      console.log(this.email);
-      console.log(this.password);
+    login(values){
+      console.log(values)
+    },
+    validateEmail(email) {
+      if (!email) {
+        return "لطفا ایمیل را وارد کنید"
+      }
+      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+      if (!regex.test(email)) {
+        return 'ایمیل نا معتبر است';
+      }
+      return true;
+    },
+    validatePassword(password){
+      if (!password) {
+        return "لطفا رمز عبور را وارد کنید"
+      }
+      if (password.length <= 5) {
+        return "لطفا رمز عبور با بیش از 5 کاراکتر انتخاب کنید"
+      }
+      return true;
     }
+
   }
 };
 </script>

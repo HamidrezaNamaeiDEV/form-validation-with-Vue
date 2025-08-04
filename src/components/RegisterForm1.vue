@@ -92,20 +92,54 @@ export default {
       ConfirmPassword : "",
       gender : "نامشخص",
       role : "کاربر",
+      isOk : false,
     };
   },
   methods:{
     register(){
-      console.log(this.name);
-      console.log(this.email);
-      console.log(this.phoneNumber);
-      console.log(this.password);
-      console.log(this.ConfirmPassword);
-      console.log(this.gender);
-      console.log(this.role);
+      this.validateProperties();
+      if(this.isOk){
+          console.log(this.name);
+          console.log(this.email);
+          console.log(this.phoneNumber);
+          console.log(this.password);
+          console.log(this.ConfirmPassword);
+          console.log(this.gender);
+          console.log(this.role);
+      }
+    },
+    validateProperties(){
+      if(validateEmail(this.email) == false){
+        this.$toast.error("ایمیل نامعتبر میباشد")
+      }else if(this.phoneNumber.length != 11){
+        this.$toast.error("شماره تلفن معتبر نمیباشد")
+      }
+      else if(!this.name){
+        this.$toast.error("لطفا نام را وارد کنید")
+      }
+      else if(!this.phoneNumber){
+        this.$toast.error("لطفا شماره تلفن را وراد کنید")
+      }
+      else if(!this.role){
+        this.$toast.error("لطفا نقش خود را انتخاب کنید")
+      }
+      else if(!this.password){
+        this.$toast.error("لطفا رمز عبور مناسبی بنویسید")
+      }
+      else if(this.ConfirmPassword !=this.password){
+        this.$toast.error("لطفا رمز عبور را تایید کنید")
+      }
+      else{
+        this.isOk = true;
+      }
     }
   }
+  
 };
+function validateEmail(email) {
+  var re = /\S+@\S+\.\S+/;
+  return re.test(email);
+}
 </script>
 
 <style>
