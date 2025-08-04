@@ -43,6 +43,37 @@
           />
           <i class="input-icon uil uil-lock-alt"></i>
         </div>
+        <div class="form-group mt-2">
+          <input
+            type="text"
+            class="form-style"
+            placeholder="شماره خود را وارد کنید"
+            autocomplete="off"
+          />
+          <i class="input-icon uil uil-phone"></i>
+        </div>
+
+        <div class="form-group mt-2">
+        <select name="" id="" class="form-style">
+          <option value="">نقش خود را وارد کنید</option>
+          <option value="">کاربر</option>
+          <option value="">مدرس</option>
+          <option value="">مدیر</option>
+        </select>
+        <i class="input-icon uli uil-airplay"></i>
+        </div>
+        
+        <div class="form-group d-flex mt-2 ms-2 text-start">
+          <label for="1">نامشخص</label>
+          <input type="radio" name="gender" value="نامشخص" id="1" class="m-1">
+
+          <label for="2">آقا</label>
+          <input type="radio" name="gender" value="آقا" id="2" class="m-1">
+        
+          <label for="3">خانم</label>
+          <input type="radio" name="gender" value="خانم" id="3" class="m-1">
+        </div>
+
         <a href="#" class="btn mt-4">ثبت نام</a>
       </div>
     </div>
@@ -50,7 +81,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      name : "",
+      email : "",
+      phoneNumber : "",
+      password : "",
+      gender : "",
+      role : "",
+
+    }
+  },
+};
 </script>
 
 <style>
